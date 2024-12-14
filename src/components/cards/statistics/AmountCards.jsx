@@ -21,7 +21,7 @@ export default function AmountCards({ title, count, extra, image }) {
                 <Button sx={{ p: 0, '&:hover, &:active, &:focus': { backgroundColor: 'transparent !important', }}}><MoreVertIcon sx={{ width: '1.2rem', color: '#2C6DB5', rotate: '90deg' }} /></Button>
             </Grid>
             <Grid container spacing={2}>
-                <Grid item xs={4} md={4}>
+                <Grid item xs={2} md={4}>
                     <Card sx={{ backgroundColor: '#F2F6FC', boxShadow: 'none', borderRadius: '12px', display: 'flex', justifyContent: 'center', alignItems: 'center', p: 1 }}>
                         {image && (
                             <img
@@ -32,7 +32,7 @@ export default function AmountCards({ title, count, extra, image }) {
                         )}
                     </Card>
                 </Grid>
-                <Grid item xs={8} md={8} alignContent='center'>
+                <Grid item xs={10} md={8} alignContent='center'>
                     <Stack spacing={0.5}>
                         <Typography variant="h6" sx={{ fontWeight: 900, color: '#676767' }}>
                             {title}
