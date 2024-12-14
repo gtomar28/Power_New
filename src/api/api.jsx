@@ -12,6 +12,8 @@ export const getAllSavedReports = async () => {
     var response = await axios.get(`${API_URL}/api/reports/`,);
     if (response) {
         return response;
+
+        
     } else {
         return [];
     }
