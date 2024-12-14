@@ -30,7 +30,7 @@ export default function UniqueVisitorCard({ Statics, graphDat }) {
         <Box sx={{ pt: 1 }}>
           <CommissionPercentage data={percentageData} />
         </Box>
-        <Grid xs={12} md={12} lg={12} sx={{ display: 'flex', m: 1, p: 1.8, backgroundColor: '#F2F6FC', border: '1px solid #E5EEF7', borderRadius: '8px' }}>
+        <Grid item xs={12} md={12} lg={12} sx={{ display: 'flex', m: 1, p: 1.8, backgroundColor: '#F2F6FC', border: '1px solid #E5EEF7', height: '100%', borderRadius: '8px' }}>
           <Typography variant="h6" sx={{ fontWeight: 900, color: '#676767', flexGrow: 1 }}>
             Wallet Balance
           </Typography>

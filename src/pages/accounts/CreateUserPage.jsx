@@ -30,6 +30,8 @@ const inputStyles = (error) => ({
 
 export default function CreateUserPage() {
 
+    const role = localStorage.getItem('role')
+
     const { register, handleSubmit, formState: { errors } } = useForm();
     const [showSecondSelect, setShowSecondSelect] = useState(false);
     const [selectedRole, setSelectedRole] = useState('');
@@ -126,8 +128,8 @@ export default function CreateUserPage() {
     return (
         <Grid container rowSpacing={4.5} columnSpacing={2.75}>
             <Grid item xs={12} sx={{ mb: -2.25 }}>
-                <Typography variant="h5" sx={{ color: '#828282' }}>
-                    Hi Rocky,
+                <Typography variant="h5" sx={{ color: '#828282', textTransform: 'capitalize' }}>
+                    Hi {userLocalData?.name},
                 </Typography>
                 <Grid container sx={{ display: 'flex' }}>
                     <Grid item xs={12} lg={7} alignSelf='center'>
@@ -140,6 +142,7 @@ export default function CreateUserPage() {
                 </Grid>
             </Grid>
             <Grid item xs={12} >
+                { role !== 'agent' ? 
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <Grid container sx={{ backgroundColor: '#fff', borderRadius: '15px', px: 2 }}>
                         <Grid item xs={12} md={6} sx={{ p: 2 }}>
@@ -472,6 +475,125 @@ export default function CreateUserPage() {
                         </Grid>
                     </Grid>
                 </form>
+                :
+                <form onSubmit={handleSubmit(onSubmit)}>
+                    <Grid container sx={{ backgroundColor: '#fff', borderRadius: '15px', px: 2 }}>
+                        <Grid item xs={12} >
+                            <Typography variant="h5">
+                                Bank Details
+                            </Typography>
+                            <Grid container rowSpacing={1} columnSpacing={1.5} sx={{ backgroundColor: '#F6F8FC', borderRadius: '15px', p: 1, mt: 2 }}>
+                                <Grid item xs={12} md={12}>
+                                    <Stack spacing={1}>
+                                        <Typography sx={{ color: '#929292', fontWeight: 'bold' }}>UPI ID</Typography>
+                                        <OutlinedInput
+                                            {...register('upi_id', { required: 'UPI ID is required', pattern: { value: /^[a-zA-Z0-9.\-_]+@[a-zA-Z]+$/, message: 'Invalid UPI ID format' } })}
+                                            placeholder="Enter your UPI ID"
+                                            sx={inputStyles(errors.upi_id)}
+                                        />
+                                        {errors.upi_id && (
+                                            <Typography color="error" variant="caption">
+                                                {errors.upi_id.message}
+                                            </Typography>
+                                        )}
+                                    </Stack>
+                                </Grid>
+                                <Grid item xs={12} md={6}>
+                                    <Stack spacing={1}>
+                                        <Typography sx={{ color: '#929292', fontWeight: 'bold' }}>Bank Name</Typography>
+                                        <OutlinedInput
+                                            {...register('bank_name', { required: 'Bank Name is required' })}
+                                            placeholder="Enter your bank name"
+                                            sx={inputStyles(errors.bank_name)}
+                                        />
+                                        {errors.bank_name && (
+                                            <Typography color="error" variant="caption">
+                                                {errors.bank_name.message}
+                                            </Typography>
+                                        )}
+                                    </Stack>
+                                </Grid>
+                                <Grid item xs={12} md={6}>
+                                    <Stack spacing={1}>
+                                        <Typography sx={{ color: '#929292', fontWeight: 'bold' }}>Branch Name</Typography>
+                                        <OutlinedInput
+                                            {...register('branch_name', { required: 'Branch Name is required' })}
+                                            placeholder="Enter your branch name"
+                                            sx={inputStyles(errors.branch_name)}
+                                        />
+                                        {errors.branch_name && (
+                                            <Typography color="error" variant="caption">
+                                                {errors.branch_name.message}
+                                            </Typography>
+                                        )}
+                                    </Stack>
+                                </Grid>
+                                <Grid item xs={12} md={12}>
+                                    <Stack spacing={1}>
+                                        <Typography sx={{ color: '#929292', fontWeight: 'bold' }}>Account Number</Typography>
+                                        <OutlinedInput
+                                            {...register('bank_account_number', { required: 'Account Number is required', pattern: { value: /^[0-9]{9,18}$/, message: 'Account Number must be 9-18 digits' } })}
+                                            placeholder="Enter your account number"
+                                            sx={inputStyles(errors.bank_account_number)}
+                                        />
+                                        {errors.bank_account_number && (
+                                            <Typography color="error" variant="caption">
+                                                {errors.bank_account_number.message}
+                                            </Typography>
+                                        )}
+                                    </Stack>
+                                </Grid>
+                                <Grid item xs={12} md={12}>
+                                    <Stack spacing={1}>
+                                        <Typography sx={{ color: '#929292', fontWeight: 'bold' }}>IFSC</Typography>
+                                        <OutlinedInput
+                                            {...register('IFSC', { required: 'IFSC is required', pattern: { value: /^[A-Z]{4}0[A-Z0-9]{6}$/, message: 'Invalid IFSC code' } })}
+                                            placeholder="Enter your IFSC code"
+                                            sx={inputStyles(errors.IFSC)}
+                                        />
+                                        {errors.IFSC && (
+                                            <Typography color="error" variant="caption">
+                                                {errors.IFSC.message}
+                                            </Typography>
+                                        )}
+                                    </Stack>
+                                </Grid>
+                                <Grid item xs={12} md={12}>
+                                    <Stack spacing={1}>
+                                        <Typography sx={{ color: '#929292', fontWeight: 'bold' }}>Account Holder Name</Typography>
+                                        <OutlinedInput
+                                            {...register('accountHolderName', { required: 'Account Holder Name is required' })}
+                                            placeholder="Enter account holder name"
+                                            sx={inputStyles(errors.accountHolderName)}
+                                        />
+                                        {errors.accountHolderName && (
+                                            <Typography color="error" variant="caption">
+                                                {errors.accountHolderName.message}
+                                            </Typography>
+                                        )}
+                                    </Stack>
+                                </Grid>
+                            </Grid>
+
+                        </Grid>
+                        <Grid container sx={{ p: 1, m: 2 }}>
+                            <Grid item xs={12} md={4} display='flex' justifyContent='end' alignItems='center'></Grid>
+                            <Grid item xs={12} md={4} display='flex' justifyContent='center' alignItems='center'>
+                                <Button type="submit" disableRipple sx={{
+                                    minWidth: '100%', textTransform: 'none', borderRadius: '32px', px: 6, mx: 0.5, py: 1, fontSize: '14px', fontWeight: 500,
+                                    backgroundColor: '#2C6DB5', color: '#fff', boxShadow: 'none', border: 'none', outline: 'none',
+                                    '&:hover, &:active, &:focus': { backgroundColor: '#2C6DB5', color: '#fff', boxShadow: 'none', }, '&:focus-visible': { outline: 'none', boxShadow: 'none' }, '&.MuiOutlinedInput - notchedOutline': { borderColor: 'transparent', }, '&.Mui-focused .MuiOutlinedInput-notchedOutline': { borderColor: 'transparent', },
+                                }}>
+                                    Publish User
+                                </Button>
+                            </Grid>
+                            <Grid item xs={12} md={4} display='flex' justifyContent='end' alignItems='center'></Grid>
+                            <Grid item >
+                            </Grid>
+                        </Grid>
+                    </Grid>
+                </form>
+                }
             </Grid>
         </Grid>
     );

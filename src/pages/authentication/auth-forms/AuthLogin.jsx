@@ -97,7 +97,8 @@ export default function AuthLogin({ isDemo = false }) {
           `data`, encryptedUserData
         );
         localStorage.setItem(
-          `role`, JSON.stringify(response?.data?.role)
+          `role`, response?.data?.role
+          // `role`, JSON.stringify(response?.data?.role)
         );
         localStorage.setItem(
           `assigned_data`, JSON.stringify(response?.data?.users[0]?.personal_details)

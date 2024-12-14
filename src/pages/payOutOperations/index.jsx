@@ -12,6 +12,8 @@ import { Link } from 'react-router-dom';
 export default function PayOutOperationsDefault() {
     const [value, setValue] = React.useState('');
 
+    const userLocalData = JSON.parse(localStorage.getItem('assigned_data'));
+
     const [updateData, setupdateData] = useState(false);
     const [showLoader, setShowLoader] = useState(false);
     const [currentPage, setCurrentPage] = useState(1);
@@ -81,8 +83,8 @@ export default function PayOutOperationsDefault() {
         <Grid container rowSpacing={4.5} columnSpacing={2.75}>
             {/* Row 1 */}
             <Grid item xs={12} sx={{ mb: -2.25 }}>
-                <Typography variant="h5" sx={{ color: '#828282' }}>
-                    Hi Rocky,
+                <Typography variant="h5" sx={{ color: '#828282', textTransform: 'capitalize' }}>
+                    Hi {userLocalData?.name},
                 </Typography>
                 <Grid container sx={{ display: 'flex' }}>
                     <Grid item xs={12} lg={7} alignSelf='center'>

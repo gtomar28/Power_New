@@ -16,7 +16,10 @@ import { OutlinedInput, InputAdornment } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import Notification from 'layout/Dashboard/Header/HeaderContent/Notification';
 import { useDialog } from 'components/Dialogs/DialogProvider';
-import SavedReportsData from 'components/cards/statistics/SavedReportsData';
+import { FileSearchOutlined } from '@ant-design/icons';
+import { Card } from '@mui/material';
+import DownloadIcon from '@mui/icons-material/Download';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 export default function AccountsDefault() {
 
@@ -34,7 +37,9 @@ export default function AccountsDefault() {
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
-    const rows = data?.results;
+    const userLocalData = JSON.parse(localStorage.getItem('assigned_data'));
+
+    const rows = data;
 
     // const rows= [
     //     { reportName: 'sss', reportType: 'sss', amount: 'sss', accounts: 'sss', created : 'sss'}
@@ -62,6 +67,24 @@ export default function AccountsDefault() {
         }
     };
 
+    const deleteUsers = async (id) => {
+        setLoading(true);
+        try {
+            const response = await deleteSavedReports(id);
+            console.log(response, "Users");
+
+            if (response?.status === 200) {
+                setData(response?.data);
+            } else {
+                console.error('Failed to fetch data', response);
+            }
+        } catch (err) {
+            console.error('Error fetching users:', err);
+        } finally {
+            setLoading(false);
+        }
+    };
+
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
     };
@@ -75,12 +98,17 @@ export default function AccountsDefault() {
         setValue(newValue);
     };
 
+    const handleIconClick = (id) => {
+        const pdfUrl = "https://example.com/your-document.pdf";
+        window.open(pdfUrl, "_blank");
+    };
+
     return (
         <Grid container rowSpacing={4.5} columnSpacing={2.75}>
             {/* Row 1 */}
             <Grid item xs={12} sx={{ mb: -2.25 }}>
-                <Typography variant="h5" sx={{ color: '#828282' }}>
-                    Hi Rocky,
+                <Typography variant="h5" sx={{ color: '#828282', textTransform: 'capitalize' }}>
+                    Hi {userLocalData?.name},
                 </Typography>
                 <Grid container sx={{ display: 'flex' }}>
                     <Grid item xs={12} lg={7} alignSelf='center'>
@@ -152,30 +180,51 @@ export default function AccountsDefault() {
                                             <Table sx={{ minWidth: 650 }} aria-label="simple table">
                                                 <TableHead>
                                                     <TableRow>
-                                                        <TableCell sx={{ py: 2.5 }}>Date & Time</TableCell>
-                                                        <TableCell sx={{ py: 2.5 }}>Order ID</TableCell>
-                                                        <TableCell sx={{ py: 2.5 }}>Amount</TableCell>
-                                                        <TableCell sx={{ py: 2.5 }}>Type</TableCell>
-                                                        <TableCell sx={{ py: 2.5 }}>Before PayIn Limit</TableCell>
-                                                        <TableCell sx={{ py: 2.5 }}>After PayIn Limit</TableCell>
-                                                        <TableCell sx={{ py: 2.5 }}>Commission</TableCell>
+                                                            <TableCell sx={{ py: 2.5 }}>Report Name</TableCell>
+                                                            <TableCell sx={{ py: 2.5 }}>Report Type</TableCell>
+                                                            <TableCell sx={{ py: 2.5 }}>Amount</TableCell>
+                                                            <TableCell sx={{ py: 2.5 }}>Accounts</TableCell>
+                                                            <TableCell sx={{ py: 2.5 }}>Created</TableCell>
+                                                            <TableCell align='center' sx={{ py: 2.5 }}>View</TableCell>
+                                                            <TableCell align='center' sx={{ py: 2.5 }}>Download</TableCell>
+                                                            <TableCell align='center' sx={{ py: 2.5 }}>Delete</TableCell>
                                                     </TableRow>
                                                 </TableHead>
                                                 <TableBody>
-                                                    {rows.map((row) => (
-                                                        <TableRow key={row?.id} sx={{ backgroundColor: row?.id % 2 === 0 ? '#fff' : '#F2F6FC' }}>
-                                                            <TableCell sx={{ py: 1.8, color: '#797B7E' }}>{row?.date_time}</TableCell>
-                                                            <TableCell sx={{ py: 1.8, color: '#797B7E' }}>{row?.order_id}</TableCell>
-                                                            <TableCell sx={{ py: 1.8 }}>{row?.amount}</TableCell>
-                                                            <TableCell sx={{ py: 1.8 }}>{row?.type}</TableCell>
-                                                            <TableCell sx={{ py: 1.8 }}>{row?.before_payin_limit}</TableCell>
-                                                            <TableCell sx={{ py: 1.8 }}>{row?.after_payin_limit}</TableCell>
-                                                            <TableCell sx={{ py: 1.8 }}>{row?.commission}</TableCell>
+                                                    {rows.map((row, index) => (
+                                                        <TableRow key={row?.id} sx={{ backgroundColor: index % 2 !== 0 ? '#fff' : '#F2F6FC' }}>
+                                                            <TableCell sx={{ py: 1.8 }}>{row?.report_name}</TableCell>
+                                                            <TableCell sx={{ py: 1.8, color: '#797B7E' }}>{row?.report_type}</TableCell>
+                                                            <TableCell sx={{ py: 1.8, color: '#797B7E' }}>{row?.amount}</TableCell>
+                                                            <TableCell sx={{ py: 1.8, color: '#797B7E' }}>{row?.accounts}</TableCell>
+                                                            <TableCell sx={{ py: 1.8, color: '#797B7E' }}>{row?.created_at.split('T')[0]}</TableCell>
+                                                            <TableCell align='center' sx={{ py: 1.8 }}><FileSearchOutlined style={{ fontSize: '22px', color: '#2C6DB5', borderBottom: '3px solid #2C6DB5' }}  /></TableCell>
+                                                            {/* onClick={() => handleIconClick(row.id)} */}
+                                                            <TableCell sx={{ display: 'flex', justifyContent: 'center', py: 1.8 }}>
+                                                                <Card
+                                                                    sx={{
+                                                                        p: 0.3,
+                                                                        px: 0.5,
+                                                                        borderRadius: 1,
+                                                                        width: 'fit-content',
+                                                                        display: 'flex',
+                                                                        justifyContent: 'center',
+                                                                        alignItems: 'center',
+                                                                        backgroundColor: '#2C6DB5',
+                                                                    }}
+                                                                >
+                                                                    <DownloadIcon
+                                                                        sx={{ color: '#fff', cursor: 'pointer' }}
+                                                                    />
+                                                                </Card>
+                                                            </TableCell>
+
+                                                            <TableCell align='center' sx={{ py: 1.8 }}><DeleteIcon sx={{ color: '#DC2625' }} /></TableCell>
                                                         </TableRow>
                                                     ))}
                                                 </TableBody>
                                             </Table>
-                                            <TablePagination rowsPerPageOptions={[10, 25, 50]} rowsPerPage={rowsPerPage} page={page} count={data?.count} onPageChange={handleChangePage} onRowsPerPageChange={handleChangeRowsPerPage} />
+                                            <TablePagination rowsPerPageOptions={[10, 25, 50]} rowsPerPage={rowsPerPage} page={page} count={data?.length} onPageChange={handleChangePage} onRowsPerPageChange={handleChangeRowsPerPage} />
                                         </TableContainer>
                                         // <SavedReportsData data = {rows} />
 

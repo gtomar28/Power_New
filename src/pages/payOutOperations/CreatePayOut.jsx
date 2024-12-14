@@ -14,6 +14,8 @@ export default function CreatePayOut() {
     const navigate = useNavigate();
     const [showLoader, setShowLoader] = useState(false);
 
+    const userLocalData = JSON.parse(localStorage.getItem('assigned_data'));
+
     const [amount, setAmount] = useState('');
     const [amountValidError, setAmountValidError] = useState(false);
     const [amountIsRequiredError, setAmountIsRequiredError] = useState(false);
@@ -135,8 +137,8 @@ export default function CreatePayOut() {
         <Grid container rowSpacing={4.5} columnSpacing={2.75}>
             {/* Column 1 */}
             <Grid item xs={12} sx={{ mb: -2.25 }}>
-                <Typography variant="h5" sx={{ color: '#828282' }}>
-                    Hi Rocky,
+                <Typography variant="h5" sx={{ color: '#828282', textTransform: 'capitalize' }}>
+                    Hi {userLocalData?.name},
                 </Typography>
                 <Grid container sx={{ display: 'flex' }}>
                     <Grid item xs={12} lg={7} alignSelf='center'>

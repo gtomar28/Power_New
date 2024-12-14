@@ -25,6 +25,8 @@ import { useNavigate } from 'react-router-dom';
 
 export default function AccountsDefault() {
 
+    const userLocalData = JSON.parse(localStorage.getItem('assigned_data'));
+
     const navigate = useNavigate()
     const [value, setValue] = React.useState('1');
     const [data, setData] = React.useState([]);
@@ -105,8 +107,8 @@ export default function AccountsDefault() {
         <Grid container rowSpacing={4.5} columnSpacing={2.75}>
             {/* Row 1 */}
             <Grid item xs={12} sx={{ mb: -2.25 }}>
-                <Typography variant="h5" sx={{ color: '#828282' }}>
-                    Hi Rocky,
+                <Typography variant="h5" sx={{ color: '#828282', textTransform: 'capitalize' }}>
+                    Hi {userLocalData?.name},
                 </Typography>
                 <Grid container sx={{ display: 'flex' }}>
                     <Grid item xs={12} lg={7} alignSelf='center'>

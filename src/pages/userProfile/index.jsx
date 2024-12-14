@@ -17,6 +17,8 @@ export default function UserProfileDefault() {
   const token = "Token b6dd7cf6689b818350024b495ecebafe862e946b"
   const [userData, setUserData] = useState('');
 
+  const userLocalData = JSON.parse(localStorage.getItem('assigned_data'));
+
   useEffect(() => {
     getUserData();
   }, [token])
@@ -37,8 +39,8 @@ export default function UserProfileDefault() {
     <Grid container rowSpacing={4.5} columnSpacing={2.75}>
       {/* Column 1 */}
       <Grid item xs={12} sx={{ mb: -2.25 }}>
-        <Typography variant="h5" sx={{ color: '#828282' }}>
-          Hi
+        <Typography variant="h5" sx={{ color: '#828282', textTransform: 'capitalize' }}>
+          Hi {userLocalData?.name},
         </Typography>
         <Grid container sx={{ display: 'flex' }}>
           <Grid item xs={12} lg={7} alignSelf='center'>

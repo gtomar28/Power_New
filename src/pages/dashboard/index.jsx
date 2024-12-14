@@ -14,6 +14,8 @@ export default function DashboardDefault() {
 
   // const role = JSON.parse(localStorage.getItem("role"));
 
+  const userLocalData = JSON.parse(localStorage.getItem('assigned_data'));
+
   const [year, setYear] = useState(2024);
   const [type, setType] = useState('payin')
 
@@ -60,8 +62,8 @@ export default function DashboardDefault() {
     <Grid container rowSpacing={4.5} columnSpacing={2.75}>
       {/* Column 1 */}
       <Grid item xs={12} sx={{ mb: -2.25 }}>
-        <Typography variant="h5" sx={{ color: '#828282' }}>
-          Hi Rocky,
+        <Typography variant="h5" sx={{ color: '#828282', textTransform: 'capitalize' }}>
+          Hi {userLocalData?.name},
         </Typography>
         <Grid container sx={{ display: 'flex' }}>
           <Grid item xs={12} lg={7} alignSelf='center'>

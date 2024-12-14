@@ -110,7 +110,7 @@ export default function IncomeAreaChart({ graphDat, slot }) {
         <HashLoader />
       )
     } */}
-      <div className="chart-container" style={{ height: '80vh' }}>
+      <div className="chart-container" style={{ height: '100%' }}>
         <Line data={data} options={options}></Line>
       </div>
     </>

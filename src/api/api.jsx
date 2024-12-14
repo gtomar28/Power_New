@@ -2,7 +2,7 @@ import axios from "axios";
 
 export const API_URL = "https://auth2.upicollect.com";
 
-var bearerToken = "Token daa87ae269d28bd54b27435edc58f593ce9aa585"
+var bearerToken = `Token ${localStorage.getItem('power_token')}`
 
 // My code 
 
@@ -13,7 +13,20 @@ export const getAllSavedReports = async () => {
     if (response) {
         return response;
 
-        
+
+    } else {
+        return [];
+    }
+}
+
+
+export const deleteSavedReports = async (id) => {
+    axios.defaults.headers.common["Authorization"] = bearerToken;
+    var response = await axios.delete(`${API_URL}/api/reports/${id}/`,);
+    if (response) {
+        return response;
+
+
     } else {
         return [];
     }
