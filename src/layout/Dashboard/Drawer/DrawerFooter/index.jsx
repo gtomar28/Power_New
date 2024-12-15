@@ -9,6 +9,7 @@ import { Link } from 'react-router-dom';
 import DrawerFooterStyled from './DrawerFooterStyled';
 import profileBg from 'assets/images/profileBg.svg';
 import profileImage from 'assets/images/profileImage.svg';
+import { useGetMenuMaster } from 'api/menu';
 
 const userLocalData = JSON.parse(localStorage.getItem('assigned_data'));
 
