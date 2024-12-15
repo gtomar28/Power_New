@@ -87,7 +87,7 @@ export default function DashboardLayout() {
             color: 'text.primary', bgcolor: menuMaster.isDashboardDrawerOpened ? iconBackColorOpen : iconBackColor,
             position: 'absolute', zIndex: 1000000,
             left: menuMaster?.isDashboardDrawerOpened ? '254px' : '5.5%',
-            top: '44px',
+            top: '52px',
             transition: 'width 0.3s ease',
             boxShadow: '0px 1px 3px #838383'
           }}
