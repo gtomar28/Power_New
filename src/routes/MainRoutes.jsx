@@ -23,7 +23,7 @@ const UserProfileDefault = Loadable(lazy(() => import('pages/userProfile/index')
 // ==============================|| MAIN ROUTING ||============================== //
 
 const MainRoutes = {
-  path: '/',
+  path: '/dashboard',
   element: <Dashboard />,
   children: [
     {
