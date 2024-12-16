@@ -88,7 +88,7 @@ export default function ProductCards({ Statics, clientDetail }) {
                                         </Typography>
                                     </Grid>
                                     <Grid item xs={8}>
-                                        <Typography component="span" sx={{ fontWeight: 'bold' }}>INR 21,00,000</Typography>
+                                        <Typography component="span" sx={{ fontWeight: 'bold' }}>INR {Statics?.total_payout_amount + Statics?.total_payin_amount}</Typography>
                                     </Grid>
                                 </Grid>
                             </Grid>

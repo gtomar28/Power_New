@@ -8,6 +8,7 @@ import ProductCards from 'components/cards/statistics/ProductCards';
 import { useState, useEffect } from 'react';
 import { clientDetails, graphData } from '../../api/api';
 import { toast } from 'react-hot-toast';
+import Notification from 'layout/Dashboard/Header/HeaderContent/Notification';
 
 
 export default function ProductsDefault() {
@@ -69,7 +70,8 @@ export default function ProductsDefault() {
                         <Typography variant="h2">Welcome to Products</Typography>
                     </Grid>
                     <Grid item xs={12} lg={5} sx={{ display: 'flex', alignItems: 'center' }}>
-                        <img src={bellNotification} alt="bellNotification" />
+                        {/* <img src={bellNotification} alt="bellNotification" /> */}
+                        <Notification/>
                         <OutlinedInput
                             placeholder="Search"
                             startAdornment={

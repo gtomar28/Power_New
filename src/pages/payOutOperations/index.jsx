@@ -91,7 +91,6 @@ export default function PayOutOperationsDefault() {
                         <Typography variant="h2">Welcome to PayOut Operations</Typography>
                     </Grid>
                     <Grid item xs={12} lg={5} sx={{ display: 'flex', alignItems: 'center', mt: { xs: 2, sm: 0 }, }}>
-                        {/* <img src={bellNotification} alt="bellNotification" /> */}
                         <Notification />
                         <OutlinedInput
                             placeholder="Search"

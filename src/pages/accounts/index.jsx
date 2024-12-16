@@ -108,7 +108,7 @@ export default function AccountsDefault() {
             {/* Row 1 */}
             <Grid item xs={12} sx={{ mb: -2.25 }}>
                 <Typography variant="h5" sx={{ color: '#828282', textTransform: 'capitalize' }}>
-                    Hi {userLocalData?.name},
+                    Hi {userLocalData?.name !== '' ? userLocalData?.name : userLocalData?.username},
                 </Typography>
                 <Grid container sx={{ display: 'flex' }}>
                     <Grid item xs={12} lg={7} alignSelf='center'>
