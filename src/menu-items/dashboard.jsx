@@ -26,7 +26,7 @@ const dashboard = {
   type: 'group',
   children: [
     // Role-based rendering for "Products" based on superAdmin role
-    {...(role === 'superAdmin' ? [{
+    {...(role === 'super admin' ? [{
       id: 'products',
       title: 'Products',
       type: 'item',
