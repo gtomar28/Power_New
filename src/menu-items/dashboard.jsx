@@ -26,14 +26,14 @@ const dashboard = {
   type: 'group',
   children: [
     // Role-based rendering for "Products" based on superAdmin role
-    ...(role === 'superAdmin' ? [{
+    {...(role === 'superAdmin' ? [{
       id: 'products',
       title: 'Products',
       type: 'item',
       url: '/products',
       icon: icons.DnsOutlinedIcon,
       breadcrumbs: false,
-    }] : []),
+    }] : [])},
 
     {
       id: 'dashboard',
