@@ -19,7 +19,6 @@ const SavedReportsDefault = Loadable(lazy(() => import('pages/statements/SavedRe
 const ProfileDefault = Loadable(lazy(() => import('pages/profile/index')));
 const UserProfileDefault = Loadable(lazy(() => import('pages/userProfile/index')));
 
-
 // ==============================|| MAIN ROUTING ||============================== //
 
 const MainRoutes = {
