@@ -13,8 +13,9 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import CircleIcon from '@mui/icons-material/Circle';
 import { approvePayout, assignOrder, onlineUser, perticularPayoutOrder } from 'api/api';
+import { toast } from 'react-hot-toast';
 
-export default function PayOutOperationData({ payOutData }) {
+export default function PayOutOperationData({ payOutData, onSendStatusCode }) {
 
 
     const [utr, setutr] = useState("");
@@ -39,7 +40,7 @@ export default function PayOutOperationData({ payOutData }) {
 
     const handleUTR = (value) => {
         setutr(value);
-        const rex = /^[A-Za-z0-9]{10,20}$/;
+        const rex = /^[A-Za-z0-12]{10,20}$/;
         if (value === "") {
             setutrValidError(false);
             setutrIsRequiredlError(true);
@@ -52,20 +53,28 @@ export default function PayOutOperationData({ payOutData }) {
         }
     }
 
-    const handleImage = (value) => {
-        setImage(value);
-        const rex = /^[A-Za-z0-9]{10,20}$/;
-        if (value === "") {
+    const handleImage = (event) => {
+        const file = event.target.files[0];
+        if (!file) {
             setImageValidError(false);
             setImageIsRequiredlError(true);
-        } else if (rex.test(value) === false) {
+            return;
+        }
+        const validTypes = ["image/jpeg", "image/png", "image/jpg"];
+        if (!validTypes.includes(file.type)) {
             setImageValidError(true);
             setImageIsRequiredlError(false);
-        } else {
-            setImageValidError(false);
-            setImageIsRequiredlError(false);
+            return;
         }
-    }
+        if (file.size > 5 * 1024 * 1024) { // 5MB limit
+            setImageValidError(true);
+            return;
+        }
+        setImage(file);
+        setImageValidError(false);
+        setImageIsRequiredlError(false);
+    };
+
 
     const handleRemark = (value) => {
         setRemark(value);
@@ -83,32 +92,35 @@ export default function PayOutOperationData({ payOutData }) {
     }
 
     const ApprovedOrders = async () => {
-        if (utr === "" || !utr) {
-            setutrIsRequiredlError(true);
-        }
-        if (remark === "" || !remark) {
-            setRemarkIsRequiredlError(true);
-        }
-        if ((utr !== "", remark !== "")) {
+        if (!utr) setutrIsRequiredlError(true);
+        if (!remark) setRemarkIsRequiredlError(true);
+        if (!image) setImageIsRequiredlError(true);
+
+        if (utr && remark && image) {
             const formData = new FormData();
             formData.append('utr', utr);
-            formData.append("upload_slip", image);
-            formData.append("remark", remark);
+            formData.append('upload_slip', image);
+            formData.append('remark', remark);
+
             try {
                 setShowLoader(true);
                 const response = await approvePayout(OrderId, formData);
-                console.log(response, "Approved Status")
-                console.log(response,)
+                console.log(response, "Done Order")
                 if (response?.status === 200) {
+                    onSendStatusCode(false);
+                    setOpenSubmittedModal(false)
                     setShowLoader(false);
-                    toast.success(response?.data?.message);
-                    onData(true);
+                    setutr('');
+                    setRemark('');
+                    setImage('');
                 }
             } catch (err) {
-                console.log(err);
+                setShowLoader(false);
+                console.error(err);
             }
         }
     };
+
 
 
     const fetchParticularData = async () => {
@@ -204,6 +216,7 @@ export default function PayOutOperationData({ payOutData }) {
             if (response?.status === 200) {
                 setShowLoader(false);
                 setOpenSubmittedModal(false);
+                onSendStatusCode(false);
             }
         } catch (err) {
             console.log(err);
@@ -518,10 +531,30 @@ export default function PayOutOperationData({ payOutData }) {
                                 <Grid fullWidth sx={{ m: 2 }}>
                                     <Typography variant='body1'>Enter UTR*</Typography>
                                     <OutlinedInput onChange={(e) => handleUTR(e.target.value)} value={utr} variant="outlined" placeholder='Remarks: Fake deposit' sx={{ mb: 2, width: '100%', boxShadow: 'none', backgroundColor: '#F7F7F7', border: 'none', '&.Mui-focused': { boxShadow: 'none', border: 'none' }, '&:hover': { border: 'none' } }} />
+                                    {utrIsRequiredError && <Typography color="error">UTR is required.</Typography>}
+                                    {utrValidError && (
+                                        <Typography sx={{ color: 'red', fontSize: '0.75rem', mt: 1 }}>
+                                            Please enter a valid UTR number
+                                        </Typography>
+                                    )}
                                     <Typography variant='body1'>Upload Slip*</Typography>
-                                    <OutlinedInput type='file' onChange={(e) => handleImage(e.target.files[0])} variant="outlined" placeholder='Remarks: Fake deposit' sx={{ mb: 2, width: '100%', boxShadow: 'none', backgroundColor: '#F7F7F7', border: 'none', '&.Mui-focused': { boxShadow: 'none', border: 'none' }, '&:hover': { border: 'none' } }} />
+                                    <OutlinedInput
+                                        type="file"
+                                        onChange={handleImage}
+                                        inputProps={{ accept: "image/*" }}
+                                    />
+                                    {imageValidError && <Typography color="error">Invalid file type or size exceeds 5MB.</Typography>}
+                                    {imageIsRequiredError && <Typography color="error">Image is required.</Typography>}
+
+
                                     <Typography variant='body1'>Remarks*</Typography>
                                     <OutlinedInput onChange={(e) => handleRemark(e.target.value)} value={remark} variant="outlined" placeholder='Fake deposit' sx={{ mb: 2, width: '100%', boxShadow: 'none', backgroundColor: '#F7F7F7', border: 'none', '&.Mui-focused': { boxShadow: 'none', border: 'none' } }} />
+                                    {remarkIsRequiredError && <Typography color="error">Remark is required.</Typography>}
+                                    {remarkValidError && (
+                                        <Typography sx={{ color: 'red', fontSize: '0.75rem', mt: 1 }}>
+                                            Please enter a valid remark
+                                        </Typography>
+                                    )}
                                     <Grid sx={{ display: 'flex', justifyContent: 'center' }}>
                                         <Button
                                             onClick={ApprovedOrders}

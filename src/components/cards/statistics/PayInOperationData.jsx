@@ -11,8 +11,9 @@ import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Grid, IconBu
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import CloseIcon from '@mui/icons-material/Close';
 import { getOrderById, Orderapproval } from 'api/api';
+import { toast } from 'react-hot-toast';
 
-export default function PayInOperationData({ data }) {
+export default function PayInOperationData({ data, onSendStatusCode }) {
     const [openDeclineModal, setOpenDeclineModal] = React.useState(false);
     const [openApproveModal, setOpenApproveModal] = React.useState(false);
     const [OrdersIds, setOrdersIds] = React.useState()
@@ -41,7 +42,7 @@ export default function PayInOperationData({ data }) {
 
     const handleUTR = (value) => {
         setutr(value);
-        const rex = /^[A-Za-z0-9]{10,20}$/;
+        const rex = /^[A-Za-z0-12]{10,20}$/;
         if (value === "") {
             setutrValidError(false);
             setutrIsRequiredlError(true);
@@ -83,7 +84,11 @@ export default function PayInOperationData({ data }) {
                 if (response?.status === 200) {
                     setShowLoader(false);
                     setOpenApproveModal(false);
+                    setOpenDeclineModal(false)
+                    onSendStatusCode(false);
                     toast.success(response?.data?.message);
+                    setutr('');
+                    setRemark('');
                 }
             } catch (err) {
                 console.log(err);
@@ -194,7 +199,7 @@ export default function PayInOperationData({ data }) {
                             </TableCell>
 
 
-                            <TableCell sx={{ display: 'flex', width:'fit-content' }}>
+                            <TableCell sx={{ display: 'flex', width: 'fit-content' }}>
 
                                 <Button
                                     onClick={() => handleApprovedOrder(true, row?.id)}

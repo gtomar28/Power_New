@@ -38,7 +38,7 @@ export default function AdminCount({ title, items, selectedAdminIds, onAdminSele
             {/* Dynamic Dropdowns */}
             {role !== 'agent' 
                 ?
-                    items.slice(0,4).map((item, index) => (
+                    items.slice(0,2).map((item, index) => (
                     <Grid
                         key={index}
                         id={`dropdown-${index}`}

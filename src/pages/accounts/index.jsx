@@ -26,6 +26,7 @@ import { useNavigate } from 'react-router-dom';
 export default function AccountsDefault() {
 
     const userLocalData = JSON.parse(localStorage.getItem('assigned_data'));
+    const role = localStorage.getItem('role')
 
     const navigate = useNavigate()
     const [value, setValue] = React.useState('1');
@@ -103,6 +104,19 @@ export default function AccountsDefault() {
         }
 
     };
+
+
+
+    const getRole = (employee) => {
+        if (employee.is_superadmin) return "Super Admin";
+        if (employee.is_admin) return "Admin";
+        if (employee.is_creator) return "Sub Admin";
+        if (employee.is_agent) return "Peer";
+        return "No Role Assigned";
+    };
+
+
+
     return (
         <Grid container rowSpacing={4.5} columnSpacing={2.75}>
             {/* Row 1 */}
@@ -139,8 +153,8 @@ export default function AccountsDefault() {
                 <Box sx={{ width: '100%', typography: 'body1' }}>
                     <TabContext value={value}>
                         <Box sx={{}}>
-                            <Grid container>
-                                <Grid item xs={12} md={8} sx={{ display: { xs: 'flex', md: 'block' }, justifyContent: { xs: 'center', md: 'unset' } }}>
+                            <Grid container sx>
+                                <Grid item xs={8} md={8} sx={{ display: { xs: 'flex', md: 'block' }, justifyContent: { xs: 'start', md: 'unset' } }}>
                                     <TabList onChange={handleChange} aria-label="customized tabs" sx={{
                                         '& .MuiTab-root': {
                                             textTransform: 'none', px: 2.5, backgroundColor: '#fff', borderRadius: '10px',
@@ -154,13 +168,13 @@ export default function AccountsDefault() {
                                         <Tab label="All" value="1" onClick={() => { setStatusVal(''); setRoleVal(''); }} />
                                         <Tab label="Active" value="2" onClick={() => { setRoleVal(''); setStatusVal('active') }} />
                                         <Tab label="Inactive" value="3" onClick={() => { setRoleVal(''); setStatusVal('inactive') }} />
-                                        <Tab label="Super Admin" value="4" onClick={() => { setStatusVal(''); setRoleVal('superadmin') }} />
-                                        <Tab label="Admin" value="5" onClick={() => { setStatusVal(''); setRoleVal('admin') }} />
-                                        <Tab label="SubAdmin" value="6" onClick={() => { setStatusVal(''); setRoleVal('creator') }} />
-                                        <Tab label="Peer" value="7" onClick={() => { setStatusVal(''); setRoleVal('agent') }} />
+                                        {role === 'superAdmin' && <Tab label="Super Admin" value="4" onClick={() => { setStatusVal(''); setRoleVal('superadmin') }} />}
+                                        {role === 'admin' && <Tab label="Admin" value="5" onClick={() => { setStatusVal(''); setRoleVal('admin') }} />}
+                                        {(role === 'creator' || role === 'admin') && <Tab label="SubAdmin" value="6" onClick={() => { setStatusVal(''); setRoleVal('creator') }} />}
+                                        {(role === 'agent' || role === 'creator' || role === 'admin') && <Tab label="Peer" value="7" onClick={() => { setStatusVal(''); setRoleVal('agent') }} />}
                                     </TabList>
                                 </Grid>
-                                <Grid item xs={12} md={4} display='flex' justifyContent='end' alignItems='center' sx={{ mt: { xs: 2, sm: 0 } }}>
+                                <Grid item xs={4} md={4} display='flex' justifyContent='end' alignItems='center'>
                                     <Button href='/createUser' disableRipple sx={{
                                         minWidth: 'fit-content', textTransform: 'none', borderRadius: '32px', px: 4, mx: 0.5, py: 1,
                                         fontSize: '14px', fontWeight: 500, backgroundColor: '#DDE7F3', color: '#2C6DB5', boxShadow: 'none', border: 'none',
@@ -191,28 +205,31 @@ export default function AccountsDefault() {
                                                     </TableRow>
                                                 </TableHead>
                                                 <TableBody>
-                                                    {rows.map((row, index) => (
-                                                        <TableRow onClick={() => navigate(`/userProfile/${row?.personal_details?.id}`)} key={index} sx={{ textDecoration: 'none', backgroundColor: index % 2 !== 0 ? '#fff' : '#F2F6FC' }}>
-                                                            <TableCell sx={{ py: 1.8 }}>{row?.personal_details?.name}</TableCell>
-                                                            <TableCell sx={{ py: 1.8 }}>{row?.personal_details?.username}</TableCell>
-                                                            <TableCell sx={{ py: 1.8 }}>{row?.payment_details?.upi_id}</TableCell>
-                                                            <TableCell sx={{ py: 1.8 }}>
-                                                                <Grid alignItems="center" sx={{ display: 'flex' }}>
-                                                                    <CircleIcon sx={{ mr: 1, fontSize: '1.2rem', color: row?.payment_details?.is_blocked ? '#EF4444' : '#22C55D' }} />
-                                                                    <Typography variant="body1" sx={{ color: row?.payment_details?.is_blocked ? '#EF4444' : '#22C55D' }}> {row?.payment_details?.is_blocked ? 'Block' : 'Unblock'}</Typography>
-                                                                </Grid>
-                                                            </TableCell>
-                                                            <TableCell sx={{ py: 1.8, display: 'flex', justifyContent: 'space-between' }}>
-                                                                <Button disableRipple sx={{ '&:hover': { backgroundColor: 'transparent' } }} onClick={(e) => { e.stopPropagation(); handleOpenDialog(row?.personal_details?.id, row?.payment_details?.is_blocked) }}>
-                                                                    {row?.payment_details?.is_blocked ? <TripOriginIcon sx={{ mr: 1, fontSize: '1.2rem', color: '#22C55D' }} /> : <PanoramaFishEyeIcon sx={{ mr: 1, fontSize: '1.2rem', color: '#EF4444' }} />}
-                                                                    <Typography variant="body1" sx={{ color: row?.payment_details?.is_blocked ? '#22C55D' : '#EF4444' }}>{row?.payment_details?.is_blocked ? 'Mark UnBlock' : 'Mark Block'}</Typography>
-                                                                </Button>
-                                                                <Button sx={{ minWidth: 'fit-content', p: 1, '&:hover, &:active, &:focus': { backgroundColor: 'transparent !important' } }}>
-                                                                    <MoreVertIcon sx={{ width: '1.2rem', color: '#2C6DB5', rotate: '90deg' }} />
-                                                                </Button>
-                                                            </TableCell>
-                                                        </TableRow>
-                                                    ))}
+                                                    {rows.map((row, index) => {
+                                                        const role = getRole(row?.personal_details);
+                                                        return (
+                                                            <TableRow onClick={() => navigate(`/userProfile/${row?.personal_details?.id}`)} key={index} sx={{ textDecoration: 'none', backgroundColor: index % 2 !== 0 ? '#fff' : '#F2F6FC' }}>
+                                                                <TableCell sx={{ py: 1.8 }}>{row?.personal_details?.name}</TableCell>
+                                                                <TableCell sx={{ py: 1.8 }}>{role}</TableCell>
+                                                                <TableCell sx={{ py: 1.8 }}>{row?.payment_details?.upi_id}</TableCell>
+                                                                <TableCell sx={{ py: 1.8 }}>
+                                                                    <Grid alignItems="center" sx={{ display: 'flex' }}>
+                                                                        <CircleIcon sx={{ mr: 1, fontSize: '1.2rem', color: row?.payment_details?.is_blocked ? '#EF4444' : '#22C55D' }} />
+                                                                        <Typography variant="body1" sx={{ color: row?.payment_details?.is_blocked ? '#EF4444' : '#22C55D' }}> {row?.payment_details?.is_blocked ? 'Block' : 'Unblock'}</Typography>
+                                                                    </Grid>
+                                                                </TableCell>
+                                                                <TableCell sx={{ py: 1.8, display: 'flex', justifyContent: 'space-between' }}>
+                                                                    <Button disableRipple sx={{ '&:hover': { backgroundColor: 'transparent' } }} onClick={(e) => { e.stopPropagation(); handleOpenDialog(row?.personal_details?.id, row?.payment_details?.is_blocked) }}>
+                                                                        {row?.payment_details?.is_blocked ? <TripOriginIcon sx={{ mr: 1, fontSize: '1.2rem', color: '#22C55D' }} /> : <PanoramaFishEyeIcon sx={{ mr: 1, fontSize: '1.2rem', color: '#EF4444' }} />}
+                                                                        <Typography variant="body1" sx={{ color: row?.payment_details?.is_blocked ? '#22C55D' : '#EF4444' }}>{row?.payment_details?.is_blocked ? 'Mark UnBlock' : 'Mark Block'}</Typography>
+                                                                    </Button>
+                                                                    {/* <Button sx={{ minWidth: 'fit-content', p: 1, '&:hover, &:active, &:focus': { backgroundColor: 'transparent !important' } }}>
+                                                                        <MoreVertIcon sx={{ width: '1.2rem', color: '#2C6DB5', rotate: '90deg' }} />
+                                                                    </Button> */}
+                                                                </TableCell>
+                                                            </TableRow>
+                                                        )
+                                                    })}
                                                 </TableBody>
                                             </Table>
                                             <TablePagination rowsPerPageOptions={[10, 25, 50]} rowsPerPage={rowsPerPage} page={page} count={data?.count} onPageChange={handleChangePage} onRowsPerPageChange={handleChangeRowsPerPage} />

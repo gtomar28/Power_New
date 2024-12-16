@@ -67,6 +67,10 @@ export default function PayOutOperationsDefault() {
         fetchData();
     }, [searchTerm, page + 1, agent, updateData, value]);
 
+    const handleStatusCode = () => {
+        fetchData();
+      };
+
 
     // Handle input change
     const handleInputChange = (value) => {
@@ -180,22 +184,22 @@ export default function PayOutOperationsDefault() {
                             sx={{
                                 p: 0, py: 2
                             }}>
-                            <PayOutOperationData payOutData={orderCreate} />
+                            <PayOutOperationData payOutData={orderCreate} onSendStatusCode={handleStatusCode}/>
                         </TabPanel>
                         <TabPanel value="ASSIGNED" sx={{
                             p: 0, py: 2
                         }}>
-                            <PayOutOperationData payOutData={orderCreate} />
+                            <PayOutOperationData payOutData={orderCreate} onSendStatusCode={handleStatusCode}/>
                         </TabPanel>
                         <TabPanel value="APPROVED" sx={{
                             p: 0, py: 2
                         }}>
-                            <PayOutOperationData payOutData={orderCreate} />
+                            <PayOutOperationData payOutData={orderCreate} onSendStatusCode={handleStatusCode}/>
                         </TabPanel>
                         <TabPanel value="CREATED" sx={{
                             p: 0, py: 2
                         }}>
-                            <PayOutOperationData payOutData={orderCreate} />
+                            <PayOutOperationData payOutData={orderCreate} onSendStatusCode={handleStatusCode}/>
                         </TabPanel>
                     </TabContext>
                 </Box>

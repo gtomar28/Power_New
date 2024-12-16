@@ -76,6 +76,10 @@ export default function PayInOperationsDefault() {
         setSearchTerm(value);
     };
 
+    const handleStatusCode = () => {
+        fetchData()
+      };
+
     return (
         <Grid container rowSpacing={4.5} columnSpacing={2.75}>
             {/* Row 1 */}
@@ -182,37 +186,37 @@ export default function PayInOperationsDefault() {
                             sx={{
                                 p: 0, py: 2
                             }}>
-                            <PayInOperationData data={orderCreate} />
+                            <PayInOperationData data={orderCreate} onSendStatusCode={handleStatusCode} />
                         </TabPanel>
                         <TabPanel value="PENDING"
                             sx={{
                                 p: 0, py: 2
                             }}>
-                            <PayInOperationData data={orderCreate} />
+                            <PayInOperationData data={orderCreate} onSendStatusCode={handleStatusCode}  />
 
                         </TabPanel>
                         <TabPanel value="APPROVED" sx={{
                             p: 0, py: 2
                         }}>
-                            <PayInOperationData data={orderCreate} />
+                            <PayInOperationData data={orderCreate} onSendStatusCode={handleStatusCode}  />
                         </TabPanel>
                         <TabPanel value="EXPIRED"
                             sx={{
                                 p: 0, py: 2
                             }}>
-                            <PayInOperationData data={orderCreate} />
+                            <PayInOperationData data={orderCreate} onSendStatusCode={handleStatusCode} />
                         </TabPanel>
                         <TabPanel value="DENIED"
                             sx={{
                                 p: 0, py: 2
                             }}>
-                            <PayInOperationData data={orderCreate} />
+                            <PayInOperationData data={orderCreate} onSendStatusCode={handleStatusCode} />
                         </TabPanel>
                         <TabPanel value="CREATED"
                             sx={{
                                 p: 0, py: 2
                             }}>
-                            <PayInOperationData data={orderCreate} />
+                            <PayInOperationData data={orderCreate} onSendStatusCode={handleStatusCode} />
                         </TabPanel>
                     </TabContext>
                 </Box>

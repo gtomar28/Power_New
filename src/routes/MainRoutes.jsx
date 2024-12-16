@@ -1,10 +1,9 @@
-import { lazy, useEffect } from 'react';
+import { lazy } from 'react';
 
 // project import
 import Loadable from 'components/Loadable';
 import Dashboard from 'layout/Dashboard';
 import NoPageFound from 'pages/NoPageFound';
-import { useNavigate } from 'react-router';
 
 const DashboardDefault = Loadable(lazy(() => import('pages/dashboard/index')));
 const LogOutDefault = Loadable(lazy(() => import('pages/logout/index')));
@@ -21,32 +20,12 @@ const ProfileDefault = Loadable(lazy(() => import('pages/profile/index')));
 const UserProfileDefault = Loadable(lazy(() => import('pages/userProfile/index')));
 
 
-
-function RedirectToDashboard() {
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    const token = localStorage.getItem('token');
-    if (token) {
-      navigate('/dashboard');
-    } else {
-      navigate('/');
-    }
-  }, [navigate]);
-
-  return null;
-}
-
 // ==============================|| MAIN ROUTING ||============================== //
 
 const MainRoutes = {
   path: '/',
   element: <Dashboard />,
   children: [
-    {
-      path:"/",
-      element:< RedirectToDashboard />
-    },
     {
       path: '/dashboard',
       element: <DashboardDefault />

@@ -18,36 +18,38 @@ export default function AdminStats({ title, items, selectedAdminIds }) {
             </Typography>
 
             {filteredItems && filteredItems.length > 0 && (
-                <Grid container>
+                <Grid container sx={{ display: 'flex', justifyContent: 'space-between' }}>
                     {filteredItems.map((item, index) => (
-                        <Grid item xs={12} md={6} lg={6} xl={6} sx={{ m: 1, p: 1.5, backgroundColor: '#F2F6FC', border: '1px solid #E5EEF7', borderRadius: '8px' }}>
-                            <Typography variant="h6" sx={{ fontWeight: 900, color: '#676767' }}>
-                                {item.username}
-                            </Typography>
-                            <Box sx={{ py: 1 }}>
-                                <Typography variant="caption" sx={{ color: '#676767' }}>
-                                    Total PayIn
+                        <Grid item xs={12} md={6} lg={6} xl={6} sx={{ p: 1 }}>
+                            <Grid sx={{ p: 1.5, backgroundColor: '#F2F6FC', border: '1px solid #E5EEF7', borderRadius: '8px' }}>
+                                <Typography variant="h6" sx={{ fontWeight: 900, color: '#676767' }}>
+                                    {item.username}
                                 </Typography>
-                            </Box>
-                            <Grid sx={{ p: 1.2, backgroundColor: '#fff', borderRadius: '8px' }}>
-                                <Typography variant="h4" sx={{ color: '#2C6DB5' }}>
-                                    {item.payin || 0}
-                                </Typography>
-                            </Grid>
-                            <Box sx={{ py: 1 }}>
-                                <Typography variant="caption" sx={{ color: '#676767' }}>
-                                    Total PayOut
-                                </Typography>
-                            </Box>
-                            <Grid sx={{ p: 1.2, backgroundColor: '#fff', borderRadius: '8px' }}>
-                                <Typography variant="h4" sx={{ color: '#2C6DB5' }}>
-                                    {item.payout || 0}
-                                </Typography>
-                            </Grid>
+                                <Box sx={{ py: 1 }}>
+                                    <Typography variant="caption" sx={{ color: '#676767' }}>
+                                        Total PayIn
+                                    </Typography>
+                                </Box>
+                                <Grid sx={{ p: 1.2, backgroundColor: '#fff', borderRadius: '8px' }}>
+                                    <Typography variant="h4" sx={{ color: '#2C6DB5' }}>
+                                        {item.payin || 0}
+                                    </Typography>
+                                </Grid>
+                                <Box sx={{ py: 1 }}>
+                                    <Typography variant="caption" sx={{ color: '#676767' }}>
+                                        Total PayOut
+                                    </Typography>
+                                </Box>
+                                <Grid sx={{ p: 1.2, backgroundColor: '#fff', borderRadius: '8px' }}>
+                                    <Typography variant="h4" sx={{ color: '#2C6DB5' }}>
+                                        {item.payout || 0}
+                                    </Typography>
+                                </Grid>
 
-                            <Box sx={{ display: 'flex', justifyContent: 'center', pt: 2 }}>
-                                <Button variant='contained' onClick={() => navigate(`/userProfile/${item?.id}`)} sx={{ backgroundColor: '#2C6DB5', borderRadius: '34px', px: 4, '&:hover': { backgroundColor: '#2C6DB5', } }}>See Details</Button>
-                            </Box>
+                                <Box sx={{ display: 'flex', justifyContent: 'center', pt: 2 }}>
+                                    <Button variant='contained' onClick={() => navigate(`/userProfile/${item?.id}`)} sx={{ backgroundColor: '#2C6DB5', borderRadius: '34px', px: 4, '&:hover': { backgroundColor: '#2C6DB5', } }}>See Details</Button>
+                                </Box>
+                            </Grid>
                         </Grid>
                     ))}
                 </Grid>
