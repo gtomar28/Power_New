@@ -18,21 +18,23 @@ const icons = {
   LogoutOutlinedIcon,
 };
 
-const role = localStorage.getItem("role");
+const role = localStorage.getItem("role") || '';
 
 const dashboard = {
   id: 'group-dashboard',
   title: 'Main',
   type: 'group',
   children: [
-    (role === 'superAdmin' && {
+    // Role-based rendering for "Products" based on superAdmin role
+    ...(role === 'superAdmin' ? [{
       id: 'products',
       title: 'Products',
       type: 'item',
       url: '/products',
       icon: icons.DnsOutlinedIcon,
       breadcrumbs: false,
-    }),
+    }] : []),
+
     {
       id: 'dashboard',
       title: 'Dashboard',
