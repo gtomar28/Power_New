@@ -18,7 +18,7 @@ const icons = {
   LogoutOutlinedIcon,
 };
 
-const role = localStorage.getItem("role")
+const role = localStorage.getItem("role");
 
 const dashboard = {
   id: 'group-dashboard',
