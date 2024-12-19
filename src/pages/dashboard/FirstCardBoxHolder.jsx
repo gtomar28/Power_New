@@ -57,10 +57,11 @@ const FirstCardBoxHolder = ({ Statics, adminDetails }) => {
                     selectedAdminIds={selectedAdminIds}
                     onAdminSelect={handleAdminSelect}
                 />
+                
             </Grid>
 
             {/* Stats of Selected Admins */}
-            {role !== 'agent' && 
+            {role === 'super admin' && 
                 <Grid item xs={12} sm={12} md={12} lg={12}>
                     <AdminStats
                         title="Stats of"

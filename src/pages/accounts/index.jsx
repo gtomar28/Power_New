@@ -168,10 +168,10 @@ export default function AccountsDefault() {
                                         <Tab label="All" value="1" onClick={() => { setStatusVal(''); setRoleVal(''); }} />
                                         <Tab label="Active" value="2" onClick={() => { setRoleVal(''); setStatusVal('active') }} />
                                         <Tab label="Inactive" value="3" onClick={() => { setRoleVal(''); setStatusVal('inactive') }} />
-                                        {role === 'superAdmin' && <Tab label="Super Admin" value="4" onClick={() => { setStatusVal(''); setRoleVal('superadmin') }} />}
-                                        {role === 'admin' && <Tab label="Admin" value="5" onClick={() => { setStatusVal(''); setRoleVal('admin') }} />}
-                                        {(role === 'creator' || role === 'admin') && <Tab label="SubAdmin" value="6" onClick={() => { setStatusVal(''); setRoleVal('creator') }} />}
-                                        {(role === 'agent' || role === 'creator' || role === 'admin') && <Tab label="Peer" value="7" onClick={() => { setStatusVal(''); setRoleVal('agent') }} />}
+                                        {role === 'super admin' && <Tab label="Super Admin" value="4" onClick={() => { setStatusVal(''); setRoleVal('superadmin') }} />}
+                                        {role === 'admin' || role === 'super admin' && <Tab label="Admin" value="5" onClick={() => { setStatusVal(''); setRoleVal('admin') }} />}
+                                        {(role === 'creator' || role === 'admin' || role === 'super admin') && <Tab label="SubAdmin" value="6" onClick={() => { setStatusVal(''); setRoleVal('creator') }} />}
+                                        {(role === 'agent' || role === 'creator' || role === 'admin' || role === 'super admin') && <Tab label="Peer" value="7" onClick={() => { setStatusVal(''); setRoleVal('agent') }} />}
                                     </TabList>
                                 </Grid>
                                 <Grid item xs={4} md={4} display='flex' justifyContent='end' alignItems='center'>

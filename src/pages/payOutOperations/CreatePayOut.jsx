@@ -32,6 +32,25 @@ export default function CreatePayOut() {
     const [ifscError, setIfscError] = useState(false);
     const [ifscIsRequiredError, setIfscIsRequiredError] = useState(false);
 
+    const [clientUPI, setClientUPI] = useState('');
+    const [clientUPIError, setClientUPIError] = useState(false);
+    const [clientUPIIsRequiredError, setClientUPIIsRequiredError] = useState(false);
+
+    const handleClientUPI = (value) => {
+        setClientUPI(value);
+        const bankNameRegex = /^[A-Za-z\s]{2,50}$/;
+        if (value === '') {
+            setClientUPIError(false);
+            setClientUPIIsRequiredError(true);
+        } else if (!bankNameRegex.test(value)) {
+            setClientUPIError(true);
+            setClientUPIIsRequiredError(false);
+        } else {
+            setClientUPIError(false);
+            setClientUPIIsRequiredError(false);
+        }
+    };
+
     const handleAmount = (value) => {
         setAmount(value);
         const indianCurrencyRegex = /^(\₹)?(\d{1,2})(,\d{2})*(\.\d{1,2})?$/;
@@ -104,15 +123,13 @@ export default function CreatePayOut() {
         if (amount && accountNumber && bankName && ifsc) {
 
             const data = {
-                account_number: accountNumber,           // String
-                amount: parseFloat(amount),              // Float
-                bank_name: bankName,                     // String
-                callback_url: 'https://client-domain.com/api/callback',  // String
-                ifsc: ifsc                               // String
+                account_number: accountNumber,
+                amount: parseFloat(amount),
+                client_upi: clientUPI,
+                bank_name: bankName,
+                ifsc: ifsc 
             };
-
             const hmac = CryptoJS.HmacSHA256(JSON.stringify(data), secretKey).toString();
-
             try {
                 setShowLoader(true);
                 const response = await createOrderForPayout(data, hmac);
@@ -193,6 +210,12 @@ export default function CreatePayOut() {
                                 <OutlinedInput value={accountNumber} onChange={(e) => handleAccountNumber(e.target.value)} variant="outlined" placeholder='' sx={{ mb: 2, width: '100%', boxShadow: 'none', backgroundColor: '#fff', border: 'none', borderRadius: '15px', '&.Mui-focused': { boxShadow: 'none', border: 'none' }, '&:hover': { border: 'none' } }} />
                                 <Typography sx={{ color: '#929292', fontWeight: 'bold' }}>IFSC</Typography>
                                 <OutlinedInput value={ifsc} onChange={(e) => handleIfsc(e.target.value)} variant="outlined" placeholder='' sx={{ mb: 2, width: '100%', boxShadow: 'none', backgroundColor: '#fff', border: 'none', borderRadius: '15px', '&.Mui-focused': { boxShadow: 'none', border: 'none' }, '&:hover': { border: 'none' } }} />
+                            </Grid>
+                        </Grid>
+                        <Grid item xs={12} md={6} >
+                            <Grid fullWidth sx={{ m: 2 }}>
+                                <Typography sx={{ color: '#929292', fontWeight: 'bold' }}>Client UPI</Typography>
+                                <OutlinedInput value={clientUPI} onChange={(e) => handleClientUPI(e.target.value)} variant="outlined" placeholder='' sx={{ mb: 2, width: '100%', boxShadow: 'none', backgroundColor: '#fff', border: 'none', borderRadius: '15px', '&.Mui-focused': { boxShadow: 'none', border: 'none' }, '&:hover': { border: 'none' } }} />
                             </Grid>
                         </Grid>
                         <Grid container sx={{ p: 1, m: 2 }}>

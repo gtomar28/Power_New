@@ -34,7 +34,6 @@ const dashboard = {
       icon: icons.DnsOutlinedIcon,
       breadcrumbs: false,
     }] : []),
-
     {
       id: 'dashboard',
       title: 'Dashboard',
@@ -67,14 +66,14 @@ const dashboard = {
         },
       ],
     },
-    {
+    ...(role !== 'agent' ? [{
       id: 'accounts',
       title: 'Accounts',
       type: 'item',
       url: ['/accounts', '/createUser', 'userProfile/:id'],
       icon: icons.UserOutlined,
       breadcrumbs: false,
-    },
+    }] : []),
     {
       id: 'statements',
       title: 'Statements',

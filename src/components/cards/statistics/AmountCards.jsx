@@ -16,7 +16,7 @@ const iconSX = { fontSize: '0.75rem', color: 'inherit', marginLeft: 0, marginRig
 
 export default function AmountCards({ title, count, extra, image }) {
     return (
-        <MainCard contentSX={{ p: 2 }}>
+        <MainCard contentSX={{ p: 1, pt:2 }}>
             <Grid container spacing={1} justifyContent='end'>
                 <Button sx={{ p: 0, '&:hover, &:active, &:focus': { backgroundColor: 'transparent !important', }}}><MoreVertIcon sx={{ width: '1.2rem', color: '#2C6DB5', rotate: '90deg' }} /></Button>
             </Grid>

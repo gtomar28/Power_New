@@ -8,7 +8,7 @@ import { Box, Button } from '@mui/material';
 import { useNavigate } from 'react-router';
 
 export default function AdminStats({ title, items, selectedAdminIds }) {
-    const filteredItems = items.filter((item) => selectedAdminIds.includes(item.id));
+    const filteredItems = items?.filter((item) => selectedAdminIds?.includes(item.id));
 
     const role = localStorage.getItem('role')
     return (

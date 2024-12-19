@@ -9,13 +9,13 @@ import { useState, useEffect } from 'react';
 import { clientDetails, graphData } from '../../api/api';
 import { toast } from 'react-hot-toast';
 import Notification from 'layout/Dashboard/Header/HeaderContent/Notification';
+import HashLoader from 'components/HashLoader';
 
 
 export default function ProductsDefault() {
 
     const userLocalData = JSON.parse(localStorage.getItem('assigned_data'));
-
-    const [clientDetail, setclientDetail] = useState([])
+    const [clientDetail, setclientDetail] = useState([]);
 
     const Details = async () => {
         try {
@@ -59,20 +59,26 @@ export default function ProductsDefault() {
 
 
     return (
-        <Grid container rowSpacing={4.5} columnSpacing={2.75}>
-            {/* Column 1 */}
-            <Grid item xs={12} sx={{ mb: -2.25 }}>
-                <Typography variant="h5" sx={{ color: '#828282', textTransform: 'capitalize' }}>
-                    Hi {userLocalData?.name !== '' ? userLocalData?.name : userLocalData?.username},
-                </Typography>
-                <Grid container sx={{ display: 'flex' }}>
-                    <Grid item xs={12} lg={7} alignSelf='center'>
-                        <Typography variant="h2">Welcome to Products</Typography>
-                    </Grid>
-                    <Grid item xs={12} lg={5} sx={{ display: 'flex', alignItems: 'center' }}>
-                        {/* <img src={bellNotification} alt="bellNotification" /> */}
-                        <Notification/>
-                        <OutlinedInput
+        <>
+            {
+                showLoader && (
+                    <HashLoader />
+                )
+            }
+            <Grid container rowSpacing={4.5} columnSpacing={2.75}>
+                {/* Column 1 */}
+                <Grid item xs={12} sx={{ mb: -2.25 }}>
+                    <Typography variant="h5" sx={{ color: '#828282', textTransform: 'capitalize' }}>
+                        Hi {userLocalData?.name !== '' ? userLocalData?.name : userLocalData?.username},
+                    </Typography>
+                    <Grid container sx={{ display: 'flex' }}>
+                        <Grid item xs={12} lg={7} alignSelf='center'>
+                            <Typography variant="h2">Welcome to Products</Typography>
+                        </Grid>
+                        <Grid item xs={12} lg={5} sx={{ display: 'flex', alignItems: 'center' }}>
+                            {/* <img src={bellNotification} alt="bellNotification" /> */}
+                            <Notification />
+                            {/* <OutlinedInput
                             placeholder="Search"
                             startAdornment={
                                 <InputAdornment position="start">
@@ -95,18 +101,19 @@ export default function ProductsDefault() {
                                     boxShadow: '0 2px 8px rgba(0, 0, 0, 0.15)',
                                 },
                             }}
-                        />
+                        /> */}
+                        </Grid>
                     </Grid>
                 </Grid>
-            </Grid>
-            <Grid item xs={12} mt={4}>
-                <ProductCards Statics={Statics} clientDetail={clientDetail}/>
-            </Grid>
+                <Grid item xs={12} mt={4}>
+                    <ProductCards Statics={Statics} clientDetail={clientDetail} />
+                </Grid>
 
-            <Grid item xs={12} mt={4}>
-                <ProductDataCards clientDetail={clientDetail}/>
-            </Grid>
+                <Grid item xs={12} mt={4}>
+                    <ProductDataCards clientDetail={clientDetail} />
+                </Grid>
 
-        </Grid>
+            </Grid>
+        </>
     );
 }

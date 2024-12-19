@@ -38,8 +38,8 @@ const UserDetailsForm = ({ userId }) => {
                 setValue('password', '**********');
                 setValue('phone_number', response?.data?.personal_details?.phone_number);
                 setphone_number(response?.data?.personal_details?.phone_number);
-                setValue('is_blocked', response?.data?.payment_details?.is_blocked);
-                setis_blocked(response?.data?.payment_details?.is_blocked);
+                setValue('is_blocked', response?.data?.personal_details?.is_checked_in);
+                setis_blocked(response?.data?.personal_details?.is_checked_in);
             }
         } catch (err) {
             console.log(err);
@@ -89,11 +89,11 @@ const UserDetailsForm = ({ userId }) => {
                     <Typography textAlign="center" variant="h5">
                         User Details
                     </Typography>
-                    <div>
+                    <Grid>
                         {!isEditable ? (
-                            <Grid display='flex' alignItems='center' onClick={handleUpdateClick} sx={{ border: '1px solid #2C6DB5', borderRadius: '34px', px: 4, py: 1, color: '#2C6DB5' }} >
-                                <DriveFileRenameOutlineIcon /> <Typography>Update</Typography>
-                            </Grid>
+                            <Button variant="outlined" onClick={handleUpdateClick} sx={{ cursor: 'pointer', border: '1px solid #2C6DB5', borderRadius: '34px', px: 4, py: 1, color: '#2C6DB5' }} >
+                                <DriveFileRenameOutlineIcon /> Update
+                            </Button>
                         ) : (
                             <>
                                 <Button variant="outlined" type="submit" sx={{ border: '1px solid #2C6DB5', borderRadius: '34px', px: 4, color: '#2C6DB5', marginRight: 2, }} >
@@ -104,7 +104,7 @@ const UserDetailsForm = ({ userId }) => {
                                 </Button>
                             </>
                         )}
-                    </div>
+                    </Grid>
                 </Grid>
             </Grid>
             <Grid
@@ -152,17 +152,12 @@ const UserDetailsForm = ({ userId }) => {
                     <Grid item xs={12} md={6}>
                         <Stack spacing={1}>
                             <Typography sx={{ color: '#929292', fontWeight: 'bold' }}>Status</Typography>
-                            <Select
+                            <Select 
                                 {...register('is_blocked', { required: 'Status is required' })}
+                                value={watch('is_blocked') ?? ""} // Ensure correct default value
+                                onChange={(e) => setValue('is_blocked', e.target.value)} // Update form value
                                 disabled={!isEditable}
-                                sx={{
-                                    mb: 2,
-                                    width: '100%',
-                                    backgroundColor: '#fff',
-                                    border: 'none',
-                                    borderRadius: '15px',
-                                }}
-                            >
+                                sx={{ mb: 2, width: '100%', backgroundColor: '#fff', border: 'none', borderRadius: '15px', }} >
                                 <MenuItem value="">Select</MenuItem>
                                 <MenuItem value={true}>Active</MenuItem>
                                 <MenuItem value={false}>Inactive</MenuItem>

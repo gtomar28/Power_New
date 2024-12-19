@@ -29,7 +29,7 @@ export default function DrawerFooter({ open }) {
               {userLocalData?.name !== '' ? userLocalData?.name : userLocalData?.username}
             </Typography>
             <Typography variant="h6"> 
-              {userLocalData?.is_superadmin ? 'Super Admin' : userLocalData?.is_admin ? 'Admin' : userLocalData?.is_creater ? 'Sub Admin' : 'Peer'}
+              {userLocalData?.is_superadmin ? 'Super Admin' : userLocalData?.is_admin ? 'Admin' : userLocalData?.is_creator ? 'Sub Admin' : 'Peer'}
             </Typography>
           </>
         )}

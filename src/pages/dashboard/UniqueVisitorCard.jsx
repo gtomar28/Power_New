@@ -38,9 +38,9 @@ export default function UniqueVisitorCard({ Statics, graphDat }) {
             {Statics?.wallet} INR
           </Typography>
         </Grid>
-        <Box sx={{ display: 'flex', justifyContent: 'center', pt: 2 }}>
+        {/* <Box sx={{ display: 'flex', justifyContent: 'center', pt: 2 }}>
           <Button variant='contained' sx={{ backgroundColor: '#2C6DB5', borderRadius: '34px', px: 4 }}>Transfer to Wallet</Button>
-        </Box>
+        </Box> */}
         <Box sx={{ pt: 1, pr: 2 }}>
           <IncomeAreaChart graphDat={graphDat} slot={slot} />
         </Box>

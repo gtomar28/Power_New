@@ -1,5 +1,4 @@
 
-import * as React from 'react';
 import { Button, Tab, CircularProgress, TablePagination } from '@mui/material';
 import { TabContext, TabList, TabPanel } from '@mui/lab';
 import { Box, Grid } from '@mui/material';
@@ -16,10 +15,14 @@ import { OutlinedInput, InputAdornment } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import Notification from 'layout/Dashboard/Header/HeaderContent/Notification';
 import { useDialog } from 'components/Dialogs/DialogProvider';
+import HashLoader from 'components/HashLoader';
+import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 
 export default function AccountsDefault() {
 
     const userLocalData = JSON.parse(localStorage.getItem('assigned_data'));
+    const [showLoader, setShowLoader] = useState(false);
 
     const { openDialog } = useDialog();
 
@@ -42,11 +45,10 @@ export default function AccountsDefault() {
     }, [page, searchVal, roleVal, statusVal, onData]);
 
     const getUsers = async () => {
-        setLoading(true);
+        setShowLoader(true);
         try {
             const response = await getAllStatements();
             console.log(response, "Users");
-
             if (response?.status === 200) {
                 setData(response?.data);
             } else {
@@ -55,7 +57,7 @@ export default function AccountsDefault() {
         } catch (err) {
             console.error('Error fetching users:', err);
         } finally {
-            setLoading(false);
+            setShowLoader(false);
         }
     };
 
@@ -77,6 +79,7 @@ export default function AccountsDefault() {
     };
 
     const handleConfirm = async () => {
+        setShowLoader(true);
         try {
             console.log(userId)
             const response = await updateUserbyId(userId);
@@ -84,6 +87,7 @@ export default function AccountsDefault() {
             if (response.status === 200) {
                 getUsers();
                 handleCloseDialog();
+                setShowLoader(false);
             }
         } catch (err) {
             console.log(err);
@@ -91,11 +95,17 @@ export default function AccountsDefault() {
 
     };
     return (
+        <>
+        {
+            showLoader && (
+              <HashLoader />
+            )
+          }
         <Grid container rowSpacing={4.5} columnSpacing={2.75}>
             {/* Row 1 */}
             <Grid item xs={12} sx={{ mb: -2.25 }}>
                 <Typography variant="h5" sx={{ color: '#828282', textTransform: 'capitalize' }}>
-                    Hi {userLocalData?.name},
+                Hi {userLocalData?.name !== '' ? userLocalData?.name : userLocalData?.username},
                 </Typography>
                 <Grid container sx={{ display: 'flex' }}>
                     <Grid item xs={12} lg={7} alignSelf='center'>
@@ -103,7 +113,7 @@ export default function AccountsDefault() {
                     </Grid>
                     <Grid item xs={12} lg={5} sx={{ display: 'flex', alignItems: 'center', mt: { xs: 2, sm: 0 }, }}>
                         <Notification />
-                        <OutlinedInput
+                        {/* <OutlinedInput
                             placeholder="Search"
                             startAdornment={
                                 <InputAdornment position="start">
@@ -116,11 +126,10 @@ export default function AccountsDefault() {
                                 '&:hover .MuiOutlinedInput-notchedOutline': { border: 'none' },
                                 '&.Mui-focused': { boxShadow: '0 2px 8px rgba(0, 0, 0, 0.15)' },
                             }}
-                        />
+                        /> */}
                     </Grid>
                 </Grid>
             </Grid>
-
             {/* Row 2 */}
             <Grid item xs={12} md={12} lg={12}>
                 <Box sx={{ width: '100%', typography: 'body1' }}>
@@ -139,12 +148,12 @@ export default function AccountsDefault() {
                                         '& .MuiTabs-indicator': { backgroundColor: 'transparent' },
                                     }}>
                                         <Tab label="All" value="1" onClick={() => { setStatusVal(''); setRoleVal(''); }} />
-                                        <Tab label="PayIn" value="2" onClick={() => { setRoleVal(''); setStatusVal('payIn') }} />
-                                        <Tab label="PayOut" value="3" onClick={() => { setRoleVal(''); setStatusVal('PayOut') }} />
+                                        {/* <Tab label="PayIn" value="2" onClick={() => { setRoleVal(''); setStatusVal('payIn') }} />
+                                        <Tab label="PayOut" value="3" onClick={() => { setRoleVal(''); setStatusVal('PayOut') }} /> */}
                                     </TabList>
                                 </Grid>
                                 <Grid item xs={12} md={6} display='flex' justifyContent='end' alignItems='center' sx={{ mt: { xs: 2, sm: 0 }, }}>
-                                    <Button href='/savedReports' disableRipple sx={{
+                                    <Button component={Link} to='/savedReports' disableRipple sx={{
                                         minWidth: 'fit-content', textTransform: 'none', borderRadius: '32px', px: 3.5, mx: 0.5, py: 0.9, fontSize: '14px', fontWeight: 500,
                                         backgroundColor: 'none', border: '1px solid #2C6DB5', color: '#2C6DB5', boxShadow: 'none',
                                         '&:hover, &:active, &:focus': { backgroundColor: 'none', border: '1px solid #2C6DB5', color: '#2C6DB5', boxShadow: 'none', }, '&:focus-visible': { outline: 'none', boxShadow: 'none' }, '&.MuiOutlinedInput - notchedOutline': { borderColor: 'transparent', }, '&.Mui-focused .MuiOutlinedInput-notchedOutline': { borderColor: 'transparent', },
@@ -208,10 +217,8 @@ export default function AccountsDefault() {
                     </TabContext>
                 </Box>
             </Grid>
-
-
-
         </Grid>
+        </>
     );
 }
 
