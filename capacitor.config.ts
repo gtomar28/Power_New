@@ -15,6 +15,10 @@ const config: CapacitorConfig = {
       androidSpinnerStyle: "large", // Spinner style (if enabled)
       spinnerColor: "#000000", // Color of the spinner (if enabled)
     }
+  },
+  server: {
+    url: 'https://power-plum-six.vercel.app/',
+    cleartext: true
   }
 };
 

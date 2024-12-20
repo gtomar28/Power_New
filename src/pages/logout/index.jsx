@@ -61,7 +61,7 @@ export default function LogOutDefault() {
               </Button>
               <Button
                 variant="contained"
-                onClick={()=> navigate('/dashboard')}
+                onClick={()=> navigate('/')}
                 sx={{
                   mx: 1,
                   backgroundColor: "#8a8a8a",
