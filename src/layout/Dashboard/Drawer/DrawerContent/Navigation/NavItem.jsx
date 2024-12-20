@@ -25,16 +25,23 @@ export default function NavItem({ item, level }) {
   // Determine if the current item is selected based on `pathname`
   const isSelected =
     (Array.isArray(item.url)
-      ? item.url.some((url) => !!matchPath({ path: url, end: false }, pathname))
-      : !!matchPath({ path: item.url, end: false }, pathname)) ||
+      ? item.url.some((url) => !!matchPath({ path: url, end: true }, pathname))
+      : !!matchPath({ path: item.url, end: true }, pathname)) ||
     openItem === item.id;
+
+    useEffect(()=> {
+      console.log(pathname, 'pathname')
+    }, [pathname])
 
   // Set the active item when the page loads or changes
   useEffect(() => {
     if (Array.isArray(item.url)) {
-      if (item.url.includes(pathname)) handlerActiveItem(item.id);
+      console.log(item.url, 'ifff1')
+      if (item.url.includes(pathname)) {handlerActiveItem(item.id);
+        console.log(item.id, 'ifff 2')}
     } else if (pathname === item.url) {
       handlerActiveItem(item.id);
+      console.log(item.id, 'else')
     }
   }, [pathname, item.id, item.url]);
 
