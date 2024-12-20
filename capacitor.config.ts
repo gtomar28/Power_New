@@ -18,7 +18,7 @@ const config: CapacitorConfig = {
   },
   server: {
     url: 'https://power-plum-six.vercel.app/',
-    cleartext: true
+    cleartext: false
   }
 };
 

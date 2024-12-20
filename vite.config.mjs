@@ -16,6 +16,11 @@ export default defineConfig({
   build: {
     rollupOptions: {
       input: 'index.html', // Ensure correct input file
+      output: {
+        assetFileNames: 'assets/[name].[hash][extname]',
+        chunkFileNames: 'assets/[name].[hash].js',
+        entryFileNames: 'assets/[name].[hash].js',
+      }
     }
   },
   resolve: {
