@@ -7,19 +7,19 @@ const config: CapacitorConfig = {
   bundledWebRuntime: false,
   plugins: {
     SplashScreen: {
-      launchShowDuration: 3000, // Time in milliseconds the splash screen is displayed
-      launchAutoHide: true,    // Automatically hides the splash screen
-      backgroundColor: "#ffffff", // Background color of the splash screen
-      androidScaleType: "CENTER_CROP", // Scale type for the splash image
-      showSpinner: false, // Set to true if you want a loading spinner
-      androidSpinnerStyle: "large", // Spinner style (if enabled)
-      spinnerColor: "#000000", // Color of the spinner (if enabled)
+      launchShowDuration: 3000,
+      launchAutoHide: true,
+      backgroundColor: "#ffffff",
+      androidScaleType: "CENTER_CROP",
+      showSpinner: false,
+      androidSpinnerStyle: "large",
+      spinnerColor: "#000000",
     }
   },
   server: {
     url: 'https://power-plum-six.vercel.app/',
     cleartext: false
-  }
+  },
 };
 
 export default config;
